@@ -11,7 +11,7 @@
       
       
       <link rel="icon" href="../../static/logo.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.11">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.1">
     
     
       
@@ -19,7 +19,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.50e68009.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.e8d9bf0c.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
@@ -935,6 +935,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#optional-code-improvement-and-verification-tools" class="md-nav__link">
+    Optional Code Improvement and Verification Tools
+  </a>
+  
+    <nav class="md-nav" aria-label="Optional Code Improvement and Verification Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#integrating-golangci-lint-with-vs-code" class="md-nav__link">
+    Integrating golangci-lint with VS Code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-commit" class="md-nav__link">
+    Pre-commit
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1168,6 +1195,33 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#optional-code-improvement-and-verification-tools" class="md-nav__link">
+    Optional Code Improvement and Verification Tools
+  </a>
+  
+    <nav class="md-nav" aria-label="Optional Code Improvement and Verification Tools">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#integrating-golangci-lint-with-vs-code" class="md-nav__link">
+    Integrating golangci-lint with VS Code
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pre-commit" class="md-nav__link">
+    Pre-commit
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1183,6 +1237,7 @@
 <a href="https://github.com/fybrik/fybrik/edit/master/site/docs/contribute/environment.md" title="Edit this page" class="md-content__button md-icon">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
 </a>
+
 
 
 <h1 id="development-environment">Development Environment</h1>
@@ -1216,6 +1271,45 @@ a docker registry as a proxy for all public images. This registry runs in a dock
 <div class="highlight"><pre><span></span><code><span class="nb">export</span> <span class="nv">DOCKERHUB_USERNAME</span><span class="o">=</span><span class="s1">&#39;your docker hub username&#39;</span>
 <span class="nb">export</span> <span class="nv">DOCKERHUB_PASSWORD</span><span class="o">=</span><span class="s1">&#39;your password&#39;</span>
 </code></pre></div>
+<h2 id="optional-code-improvement-and-verification-tools">Optional Code Improvement and Verification Tools</h2>
+<p>Fybrik repositories use different linters to validate and improve code.<br />
+<em>golangci-lint</em> works as a Go linters aggregator, which includes a lot of linter such as <code>staticcheck</code>, <code>revive</code>, <code>goimports</code> and more.<br />
+You can check its configuration in the <code>.golangci.yml</code> files.</p>
+<h3 id="integrating-golangci-lint-with-vs-code">Integrating golangci-lint with VS Code</h3>
+<p>Change the default lint to <code>golanci-lint</code> in VS Code:</p>
+<ol>
+<li>Install golangci-lint: <a href="https://golangci-lint.run/usage/install/">https://golangci-lint.run/usage/install/</a></li>
+<li>Open VS Code <code>setting.json</code>:<ol>
+<li>Open the Command Palette: <code>Ctrl+Shift+P</code> </li>
+<li>In the dropdown search box, search for "Open Settings (JSON)"</li>
+<li>Open <code>setting.json</code></li>
+</ol>
+</li>
+<li>Add to <code>setting.json</code> the following:
+<div class="highlight"><pre><span></span><code>&quot;go.lintTool&quot;:&quot;golangci-lint&quot;,
+&quot;go.lintFlags&quot;: [
+  &quot;--fast&quot;
+  &quot;--allow-parallel-runners&quot;
+]
+</code></pre></div></li>
+</ol>
+<p>Golangci-lint automatically discovers <code>.golangci.yml</code> in the working project, you don't need to configure it in VS Code settings.</p>
+<p>To integrate with other IDEs: <a href="https://golangci-lint.run/usage/integrations/">https://golangci-lint.run/usage/integrations/</a><br />
+If you wish to run golangci-lint on cmd, run in the desired directory:<br />
+<div class="highlight"><pre><span></span><code>golangci-lint run --fast
+</code></pre></div></p>
+<h3 id="pre-commit">Pre-commit</h3>
+<p><code>pre-commit</code> is an optional tool that inspect the snapshot that's about to be committed according to the configured hooks, in our case, <code>golangci-lint</code>.<br />
+Pre-commit configuration is in <code>.pre-commit-config.yaml</code></p>
+<p>How to use:</p>
+<ol>
+<li>Install pre-commit: <a href="https://pre-commit.com/">https://pre-commit.com/</a></li>
+<li>In the repository, run:<br />
+<div class="highlight"><pre><span></span><code>pre-commit install
+</code></pre></div></li>
+</ol>
+<p>Now, <code>pre-commit</code> will automatically validate all your commits.</p>
+<p>To run commits without <code>pre-commit</code> validation add the <code>--no-verify</code> flag to <code>git commit</code>.</p>
 
               
             </article>
@@ -1298,10 +1392,10 @@ a docker registry as a proxy for all public images. This registry runs in a dock
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.092fa1f6.min.js", "version": {"provider": "mike"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.tabs"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.bd0b6b67.min.js", "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.5a9542cf.min.js"></script>
+      <script src="../../assets/javascripts/bundle.8aa65030.min.js"></script>
       
     
   </body>
